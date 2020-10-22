@@ -27,15 +27,18 @@ def clear():
         # mac / linux
     else:
         _ = system('clear')
+    print(bcolors.ENDC)
 
 
 def welcome():
+    print(bcolors.ENDC)
     print("Willkommen zu VierGewinnt")
     printLogo()
     setSize()
 
 
 def printLogo():
+    print(bcolors.ENDC, end='')
     print("""
 
 
@@ -102,8 +105,8 @@ def ausgeben():
     for x in range(int(feldSizeX)):
         print(f"====", end='')
     print("=|")
-    for x in range(int(feldSizeX)):
-        for y in range(int(feldSizeY)):
+    for y in range(int(feldSizeY)):
+        for x in range(int(feldSizeX)):
             tmpVal = feld[x][y]
 
             if int(tmpVal) == 0:
@@ -113,24 +116,50 @@ def ausgeben():
             elif int(tmpVal) == 2:
                 print(f"| {bcolors.BLUE + '0' + bcolors.ENDC} ", end='')
 
-        print(f"|{bcolors.ORANGE}| {x}")
+        print(f"|{bcolors.ORANGE}| {y}")
 
 
 spielerAmZug = 1
+
+
+# überprüfe eingabe
+def checkinput(check):
+    try:
+        int(check)
+    except ValueError:
+        print(bcolors.RED + "Das ist keine Zahl!!" + bcolors.ENDC)
+        return False
+
+    if int(check) >= int(feldSizeX):
+        print(bcolors.RED + "Diese Zeile existiert nicht!" + bcolors.ENDC)
+        return False
+
+    if int(check) < 0:
+        print(bcolors.RED + "Du Scherzkeks!" + bcolors.ENDC)
+        return False
+
+
+
+    return True
 
 
 def game():
     global spielerAmZug
     global feld
 
-    feld[3][6] = 1
-    feld[8][3] = 2
+
     print(f"Spieler {spielerAmZug} am Zug!")
     ausgeben()
     print()
-    print("Bitte gebe den Index der Spalte ein, in den du einen Stein setzen willst!")
+    print(bcolors.GREEN + "Bitte gebe den Index der Spalte ein, in den du einen Stein setzen willst!")
     print()
-    nextColumn = input("")
+    nextcolumn = input("Erwarte Zahl: " + bcolors.PURPLE)
+    if not checkinput(nextcolumn):
+        print(bcolors.RED +  'ERROR!' + bcolors.ENDC)
+
+
+
+
 
 
 # SpielStart
