@@ -125,7 +125,7 @@ def ausgeben():
     # header
     print(bcolors.ORANGE, end='')
     for x in range(int(feldSizeX)):
-        print(f"  {x} ", end='')
+        print(f"  {int(x)+1} ", end='')
     print()
     for x in range(int(feldSizeX)):
         print(f"====", end='')
@@ -141,7 +141,7 @@ def ausgeben():
             elif int(tmpVal) == 2:
                 print(f"| {bcolors.BLUE + '0' + bcolors.ENDC} ", end='')
 
-        print(f"|{bcolors.ORANGE}| {y}")
+        print(f"|{bcolors.ORANGE}| {int(y)+1}")
 
 # Welcher spieler spielt grade? 1 oder 2!!!
 spielerAmZug = 1
@@ -180,12 +180,13 @@ def game():
     print(bcolors.GREEN + "Bitte gebe den Index der Spalte ein, in den du einen Stein setzen willst!")
     print()
     nextcolumn = input("Erwarte Zahl: " + bcolors.PURPLE)
-    if not checkinput(nextcolumn):
+    if not checkinput(int(nextcolumn)-1):
         print(bcolors.RED +  'Drücke Enter um die Eingabe neu zu starten' + bcolors.ENDC)
         input("")
         clear()
         game()
-    if not addpiece(nextcolumn):
+    checkDraw()
+    if not addpiece(int(nextcolumn)-1):
         print(bcolors.RED + "Zum neu laden der Eingabe Enter drücken..." + bcolors.ENDC)
         input("")
         clear()
@@ -272,10 +273,11 @@ def checkWin(x, y, player):
     # Auswertung
     counter = 0
     for c in range(0, 7):
-        if tmpHors[c] == player:
-            counter = counter+1
-        else:
-            counter = 0
+        if counter <= 3:
+            if tmpHors[c] == player:
+                counter = counter+1
+            else:
+                counter = 0
 
     if int(counter) == 4:
         win = True
@@ -300,10 +302,11 @@ def checkWin(x, y, player):
     # Auswertung
     counter = 0
     for c in range(0, 7):
-        if c1[c] == player:
-            counter = counter + 1
-        else:
-            counter = 0
+        if counter <= 3:
+            if c1[c] == player:
+                counter = counter + 1
+            else:
+                counter = 0
     if int(counter) == 4:
         win = True
     else:
@@ -328,10 +331,11 @@ def checkWin(x, y, player):
     # Auswertung
     counter = 0
     for c in range(0, 7):
-        if c2[c] == player:
-            counter = counter + 1
-        else:
-            counter = 0
+        if counter <= 3:
+            if c2[c] == player:
+                counter = counter + 1
+            else:
+                counter = 0
     if int(counter) == 4:
         win = True
     else:
@@ -344,6 +348,39 @@ def checkWin(x, y, player):
         winner(player)
     else:
         clear()
+        checkDraw()
+
+
+
+def checkDraw():
+    global feld
+
+    draw = True
+
+    for l in feld:
+        if l[0] == 0:
+            draw = False
+
+    if draw:
+        clear()
+        print(bcolors.BLUE + bcolors.BOLD + """
+            
+     ____ ___                     __                .__    .__           .___             
+    |    |   \____   ____   _____/  |_  ______ ____ |  |__ |__| ____   __| _/____   ____  
+    |    |   /    \_/ __ \ /    \   __\/  ___// ___\|  |  \|  |/ __ \ / __ |/ __ \ /    \ 
+    |    |  /   |  \  ___/|   |  \  |  \___ \\\\  \___|   Y  \  \  ___// /_/ \  ___/|   |  \\
+    |______/|___|  /\___  >___|  /__| /____  >\___  >___|  /__|\___  >____ |\___  >___|  /
+                 \/     \/     \/          \/     \/     \/        \/     \/    \/     \/ 
+
+        """)
+        print(bcolors.RED + "Schade leider unentschieden!" + bcolors.ENDC)
+        ausgeben()
+        print()
+        print()
+        print(bcolors.CYAN + "Bitte Enter drücken om das Programm zu beenden!" + bcolors.ENDC)
+        input()
+        quit()
+
 
 
 
