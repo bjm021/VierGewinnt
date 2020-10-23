@@ -73,7 +73,7 @@ def setSize():
     global feldSizeX
     global feldSizeY
     print()
-    print("Welche größe soll das Feld habn?")
+    print("Welche größe soll das Feld habn? Horizontale x Vertikale)")
     feldSizeX = input("X: " + bcolors.PURPLE)
     feldSizeY = input(bcolors.ORANGE + "Y: " + bcolors.PURPLE)
     # Auf int überprüfen
@@ -123,23 +123,28 @@ def ausgeben():
     global feldSizeY
 
     # header
-    print(bcolors.ORANGE, end='')
+    print(bcolors.ORANGE + " ", end='')
     for x in range(int(feldSizeX)):
-        print(f"  {int(x)+1} ", end='')
+        if int(x)+1 < 10:
+            print(f"  {int(x)+1} ", end='')
+        else:
+            print(f" {int(x) + 1} ", end='')
     print()
+    print("|", end='')
     for x in range(int(feldSizeX)):
         print(f"====", end='')
     print("=|")
     for y in range(int(feldSizeY)):
+        print(bcolors.ORANGE + "|" + bcolors.ENDC, end='')
         for x in range(int(feldSizeX)):
             tmpVal = feld[x][y]
 
             if int(tmpVal) == 0:
-                print(f"| {bcolors.CYAN + '-' + bcolors.ENDC} ", end='')
+                print(bcolors.ENDC + f"| {bcolors.CYAN + '-' + bcolors.ENDC} ", end='')
             elif int(tmpVal) == 1:
-                print(f"| {bcolors.RED + 'X' + bcolors.ENDC} ", end='')
+                print(bcolors.RED + f"| {bcolors.RED + 'X' + bcolors.ENDC} ", end='')
             elif int(tmpVal) == 2:
-                print(f"| {bcolors.BLUE + '0' + bcolors.ENDC} ", end='')
+                print(bcolors.RED + f"| {bcolors.BLUE + '0' + bcolors.ENDC} ", end='')
 
         print(f"|{bcolors.ORANGE}| {int(y)+1}")
 
@@ -155,11 +160,11 @@ def checkinput(check):
         print(bcolors.RED + "Das ist keine Zahl!!" + bcolors.ENDC)
         return False
 
-    if int(check) >= int(feldSizeX):
+    if int(check)-1 >= int(feldSizeX):
         print(bcolors.RED + "Diese Zeile existiert nicht!" + bcolors.ENDC)
         return False
 
-    if int(check) < 0:
+    if int(check)-1 < 0:
         print(bcolors.RED + "Du Scherzkeks!" + bcolors.ENDC)
         return False
 
@@ -173,14 +178,16 @@ def game():
     global feld
 
 
-    print(bcolors.PURPLE + f"Spieler {spielerAmZug} am Zug!" + bcolors.ENDC)
+    #print(bcolors.PURPLE + f"Spieler {spielerAmZug} am Zug!" + bcolors.ENDC)
     printLogo()
     ausgeben()
     print()
     print(bcolors.GREEN + "Bitte gebe den Index der Spalte ein, in den du einen Stein setzen willst!")
     print()
+    print(bcolors.PURPLE + f"Spieler {spielerAmZug} am Zug!" + bcolors.ENDC)
+    print()
     nextcolumn = input("Erwarte Zahl: " + bcolors.PURPLE)
-    if not checkinput(int(nextcolumn)-1):
+    if not checkinput(nextcolumn):
         print(bcolors.RED +  'Drücke Enter um die Eingabe neu zu starten' + bcolors.ENDC)
         input("")
         clear()
