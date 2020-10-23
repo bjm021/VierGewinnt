@@ -142,9 +142,9 @@ def ausgeben():
             if int(tmpVal) == 0:
                 print(bcolors.ENDC + f"| {bcolors.CYAN + '-' + bcolors.ENDC} ", end='')
             elif int(tmpVal) == 1:
-                print(bcolors.RED + f"| {bcolors.RED + 'X' + bcolors.ENDC} ", end='')
+                print(bcolors.ENDC + f"| {bcolors.RED + 'X' + bcolors.ENDC} ", end='')
             elif int(tmpVal) == 2:
-                print(bcolors.RED + f"| {bcolors.BLUE + '0' + bcolors.ENDC} ", end='')
+                print(bcolors.ENDC + f"| {bcolors.BLUE + '0' + bcolors.ENDC} ", end='')
 
         print(f"|{bcolors.ORANGE}| {int(y)+1}")
 
