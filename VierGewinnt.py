@@ -271,9 +271,12 @@ def checkWin(x, y, player):
 
     # Auswertung
     counter = 0
-    for r in tmpHors:
-        if int(r) == int(player):
-            counter = counter + 1
+    for c in range(0, 7):
+        if tmpHors[c] == player:
+            counter = counter+1
+        else:
+            counter = 0
+
     if int(counter) == 4:
         win = True
     else:
@@ -287,7 +290,7 @@ def checkWin(x, y, player):
     for i in range(x-3, x+4):
         if i < 0 or j < 0:
             c1.append(0)
-        elif i < int(feldSizeX) and j < int(feldSizeY):
+        elif j < int(feldSizeX) and i < int(feldSizeY):
             c1.append(feld[j][i])
         else:
             c1.append(0)
@@ -296,9 +299,11 @@ def checkWin(x, y, player):
 
     # Auswertung
     counter = 0
-    for r in c1:
-        if int(r) == int(player):
+    for c in range(0, 7):
+        if c1[c] == player:
             counter = counter + 1
+        else:
+            counter = 0
     if int(counter) == 4:
         win = True
     else:
@@ -313,7 +318,7 @@ def checkWin(x, y, player):
     for i in range(x-3, x+4):
         if i < 0 or j < 0:
             c2.append(0)
-        elif i < int(feldSizeX) and j < int(feldSizeY):
+        elif j < int(feldSizeX) and i < int(feldSizeY):
             c2.append(feld[j][i])
         else:
             c2.append(0)
@@ -322,9 +327,11 @@ def checkWin(x, y, player):
 
     # Auswertung
     counter = 0
-    for r in c2:
-        if int(r) == int(player):
+    for c in range(0, 7):
+        if c2[c] == player:
             counter = counter + 1
+        else:
+            counter = 0
     if int(counter) == 4:
         win = True
     else:
@@ -337,6 +344,7 @@ def checkWin(x, y, player):
         winner(player)
     else:
         clear()
+
 
 
 def winner(player):
@@ -380,7 +388,10 @@ def winner(player):
 
 
     ausgeben()
-    print(bcolors.ENDC)
+    print()
+    print()
+    print(bcolors.CYAN + "Bitte Enter drücken om das Programm zu beenden!" + bcolors.ENDC)
+    input()
     quit()
 
 
