@@ -218,6 +218,8 @@ def addpiece(column):
 
 def checkWin(x, y, player):
     global feld
+    global feldSizeX
+    global feldSizeY
     # ============================== Vertical ==============================
     tmpVerts = []
     for i in range(x, x+4):
@@ -245,22 +247,112 @@ def checkWin(x, y, player):
             tmpHors.append(0)
 
     # Auswertung
-    hcounter = 0
+    counter = 0
     for r in tmpHors:
         if int(r) == int(player):
-            hcounter = hcounter + 1
-    if int(hcounter) == 4:
+            counter = counter + 1
+    if int(counter) == 4:
         win = True
     else:
         ein = False
 
-    print(tmpHors)
+    #print(tmpHors)
 
+    # ============================== Kreuz LO-RU ==============================
+    c1 = []
+    j = y-3
+    for i in range(x-3, x+4):
+        if i < 0 or j < 0:
+            c1.append(0)
+        elif i < int(feldSizeX) and j < int(feldSizeY):
+            c1.append(feld[j][i])
+        else:
+            c1.append(0)
+
+        j = j+1
+
+    # Auswertung
+    counter = 0
+    for r in c1:
+        if int(r) == int(player):
+            counter = counter + 1
+    if int(counter) == 4:
+        win = True
+    else:
+        ein = False
+
+    #print(c1)
+
+    # ============================== Kreuz LU-RO ==============================
+
+    c2 = []
+    j = y+3
+    for i in range(x-3, x+4):
+        if i < 0 or j < 0:
+            c2.append(0)
+        elif i < int(feldSizeX) and j < int(feldSizeY):
+            c2.append(feld[j][i])
+        else:
+            c2.append(0)
+
+        j = j-1
+
+    # Auswertung
+    counter = 0
+    for r in c2:
+        if int(r) == int(player):
+            counter = counter + 1
+    if int(counter) == 4:
+        win = True
+    else:
+        ein = False
+
+    #print(c2)
 
     if win:
         clear()
-        print(bcolors.GREEN + f"Spieler {player} gewinnt!" + bcolors.ENDC)
-        quit()
+        winner(player)
+
+
+def winner(player):
+    if int(player) == 1:
+        print(bcolors.BLUE + bcolors.BOLD + """
+    
+    
+    
+      _________      .__       .__                  ____    ________              .__               __   
+     /   _____/_____ |__| ____ |  |   ___________  /_   |  /  _____/  ______  _  _|__| ____   _____/  |_ 
+     \_____  \\\\____ \|  |/ __ \|  | _/ __ \_  __ \  |   | /   \  ____/ __ \ \/ \/ /  |/    \ /    \   __\\
+     /        \  |_> >  \  ___/|  |_\  ___/|  | \/  |   | \    \_\  \  ___/\     /|  |   |  \   |  \  |  
+    /_______  /   __/|__|\___  >____/\___  >__|     |___|  \______  /\___  >\/\_/ |__|___|  /___|  /__|  
+            \/|__|           \/          \/                       \/     \/               \/     \/      
+    
+    
+    
+                            """)
+        print(bcolors.GREEN + "Herzlichen Glückwunsch Spieler 1" + bcolors.ENDC)
+    else:
+
+        print(bcolors.BLUE + bcolors.BOLD + """
+
+
+
+            
+      _________      .__       .__                 ________     ________              .__               __   
+     /   _____/_____ |__| ____ |  |   ___________  \_____  \   /  _____/  ______  _  _|__| ____   _____/  |_ 
+     \_____  \\\\____ \|  |/ __ \|  | _/ __ \_  __ \  /  ____/  /   \  ____/ __ \ \/ \/ /  |/    \ /    \   __\\
+     /        \  |_> >  \  ___/|  |_\  ___/|  | \/ /       \  \    \_\  \  ___/\     /|  |   |  \   |  \  |  
+    /_______  /   __/|__|\___  >____/\___  >__|    \_______ \  \______  /\___  >\/\_/ |__|___|  /___|  /__|  
+            \/|__|           \/          \/                \/         \/     \/               \/     \/      
+    
+
+
+
+                                    """)
+        print(bcolors.GREEN + "Herzlichen Glückwunsch Spieler 2" + bcolors.ENDC)
+
+    quit()
+
 
 
 
