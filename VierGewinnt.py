@@ -208,11 +208,59 @@ def addpiece(column):
 
     feld[c] = tmpList
 
+    checkWin(int(index)-1, c, int(spielerAmZug))
+
     changePlayer()
     game()
 
 
 
+
+def checkWin(x, y, player):
+    global feld
+    # ============================== Vertical ==============================
+    tmpVerts = []
+    for i in range(x, x+4):
+        if int(i) < int(feldSizeY):
+            tmpVerts.append(feld[y][i])
+        else:
+            tmpVerts.append(0)
+
+    # Auswertung
+    win = True
+    for r in tmpVerts:
+        if int(r) != int(player):
+            win = False
+
+    #print(tmpVerts)
+
+    # ============================== Horizontal ==============================
+    tmpHors = []
+    for i in range(y-3, y+4):
+        if y < 0:
+            tmpHors.append(0)
+        if i < int(feldSizeX):
+            tmpHors.append(feld[i][x])
+        else:
+            tmpHors.append(0)
+
+    # Auswertung
+    hcounter = 0
+    for r in tmpHors:
+        if int(r) == int(player):
+            hcounter = hcounter + 1
+    if int(hcounter) == 4:
+        win = True
+    else:
+        ein = False
+
+    print(tmpHors)
+
+
+    if win:
+        clear()
+        print(bcolors.GREEN + f"Spieler {player} gewinnt!" + bcolors.ENDC)
+        quit()
 
 
 
