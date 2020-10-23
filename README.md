@@ -1,7 +1,7 @@
 # VierGewinnt
 VierGewinnt in Python
 
-![VierGewinntPy](https://cdn.bjmsw.net/VierGewinntPreview.png)
+![VierGewinntPy](https://cdn.bjmsw.net/VierGEwinntFinal.png)
 
 # Inspiration
 
