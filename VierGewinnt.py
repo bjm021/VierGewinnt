@@ -14,12 +14,14 @@ class bcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-
+# Komplettes Feld
 feld = []
+
+# Feldgrößen
 feldSizeX = 0
 feldSizeY = 0
 
-
+# Konsole löschen
 def clear():
     # windows
     if name == 'nt':
@@ -29,14 +31,14 @@ def clear():
         _ = system('clear')
     print(bcolors.ENDC)
 
-
+# Startpunkt
 def welcome():
     print(bcolors.ENDC)
     print("Willkommen zu VierGewinnt")
     printLogo()
     setSize()
 
-
+# LOGO ausgeben
 def printLogo():
     print(bcolors.ENDC, end='')
     print("""
@@ -52,7 +54,7 @@ ____   ____.__                ________              .__               __
 
                     """)
 
-
+# Nutzer nach größen Fragen
 def setSize():
     global feldSizeX
     global feldSizeY
@@ -60,6 +62,7 @@ def setSize():
     print("Welche größe soll das Feld habn?")
     feldSizeX = input("X: ")
     feldSizeY = input("Y: ")
+    # Auf int überprüfen
     try:
         int(feldSizeX)
         int(feldSizeY)
@@ -70,6 +73,7 @@ def setSize():
     print(f"Ok das Feld wird also {feldSizeX} x {feldSizeY} groß sein?")
     print("Ist das OK?")
     choice = input("y/n? ")
+    # y UND Y sollen gehen also alles als LOWER vergleichen
     if choice.lower() == "y":
         print("OK")
         print()
@@ -80,7 +84,7 @@ def setSize():
         print("Ok dann kannst du es nun korrigieren...")
         setSize()
 
-
+# Listen entsprechend der Größe mit 0 auffüllen
 def initListen():
     global feldSizeX
     global feldSizeY
@@ -91,7 +95,7 @@ def initListen():
             tmpList.append(0)
         feld.append(tmpList)
 
-
+# haupt ausgeben Methode
 def ausgeben():
     global feld
     global feldSizeX
@@ -118,7 +122,7 @@ def ausgeben():
 
         print(f"|{bcolors.ORANGE}| {y}")
 
-
+# Welcher spieler spielt grade? 1 oder 2!!!
 spielerAmZug = 1
 
 
@@ -148,14 +152,64 @@ def game():
     global feld
 
 
-    print(f"Spieler {spielerAmZug} am Zug!")
+    print(bcolors.PURPLE + f"Spieler {spielerAmZug} am Zug!" + bcolors.ENDC)
     ausgeben()
     print()
     print(bcolors.GREEN + "Bitte gebe den Index der Spalte ein, in den du einen Stein setzen willst!")
     print()
     nextcolumn = input("Erwarte Zahl: " + bcolors.PURPLE)
     if not checkinput(nextcolumn):
-        print(bcolors.RED +  'ERROR!' + bcolors.ENDC)
+        print(bcolors.RED +  'Drücke Enter um die Eingabe neu zu starten' + bcolors.ENDC)
+        input("")
+        clear()
+        game()
+    if not addpiece(nextcolumn):
+        print(bcolors.RED + "Zum neu laden der Eingabe Enter drücken..." + bcolors.ENDC)
+        input("")
+        clear()
+        game()
+
+
+def changePlayer():
+    global spielerAmZug
+
+    if int(spielerAmZug) == 1:
+        spielerAmZug = 2
+    else:
+        spielerAmZug = 1
+
+
+# Füge ein stein einer spalte hinzu
+def addpiece(column):
+    global feld
+    global spielerAmZug
+    global feldSizeY
+
+    c = int(column)
+    tmpList = feld[c]
+
+    # überprüfe ob Liste voll ist
+    if tmpList[0] != 0:
+        print(bcolors.RED + "Diese Spalte ist schon voll!" + bcolors.ENDC)
+        return False
+
+    #finde letzen leeren index
+    #tmpindex = 0
+    #print(tmpList)
+    #print(len(tmpList))
+
+    index = 0
+
+    for tmpindex in tmpList:
+        if tmpindex == 0:
+            index = int(index)+1
+
+    tmpList[int(index)-1] = int(spielerAmZug)
+
+    feld[c] = tmpList
+
+    changePlayer()
+    game()
 
 
 
