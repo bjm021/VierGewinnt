@@ -1,3 +1,15 @@
+#  ____   ____.__                ________              .__               __
+# \   \ /   /|__| ___________  /  _____/  ______  _  _|__| ____   _____/  |_
+#  \   Y   / |  |/ __ \_  __ \/   \  ____/ __ \ \/ \/ /  |/    \ /    \   __\
+#   \     /  |  \  ___/|  | \/\    \_\  \  ___/\     /|  |   |  \   |  \  |
+#    \___/   |__|\___  >__|    \______  /\___  >\/\_/ |__|___|  /___|  /__|
+#                    \/               \/     \/               \/     \/
+#
+#   VierGewinnt
+#   by b.jm021 (Benjamin J. Meyer)
+#
+
+
 # Um die Konsole zu clearen (cls oder clear)
 from os import system, name
 
@@ -33,15 +45,17 @@ def clear():
 
 # Startpunkt
 def welcome():
+    clear()
     print(bcolors.ENDC)
     print("Willkommen zu VierGewinnt")
+    print(bcolors.CYAN + "Erstellt von Benjamin J. Meyer" + bcolors.ENDC)
     printLogo()
     setSize()
 
 # LOGO ausgeben
 def printLogo():
     print(bcolors.ENDC, end='')
-    print("""
+    print(bcolors.GREEN + """
 
 
 ____   ____.__                ________              .__               __   
@@ -52,7 +66,7 @@ ____   ____.__                ________              .__               __
                    \/               \/     \/               \/     \/      
 
 
-                    """)
+                    """ + bcolors.ORANGE)
 
 # Nutzer nach größen Fragen
 def setSize():
@@ -60,19 +74,25 @@ def setSize():
     global feldSizeY
     print()
     print("Welche größe soll das Feld habn?")
-    feldSizeX = input("X: ")
-    feldSizeY = input("Y: ")
+    feldSizeX = input("X: " + bcolors.PURPLE)
+    feldSizeY = input(bcolors.ORANGE + "Y: " + bcolors.PURPLE)
     # Auf int überprüfen
     try:
         int(feldSizeX)
         int(feldSizeY)
     except:
-        print("Da ist etwas mit deiner eingabe schiefgelaufen!!! Bitte beachte das alle Eingaben Integer seien sollen!")
-        print("Starte eingabe neu!!")
+        print(bcolors.RED + "Da ist etwas mit deiner eingabe schiefgelaufen!!! Bitte beachte das alle Eingaben Integer seien sollen!")
+        print("Starte eingabe neu!!" + bcolors.ORANGE)
         setSize()
-    print(f"Ok das Feld wird also {feldSizeX} x {feldSizeY} groß sein?")
+
+    if int(feldSizeX) < 4 or int(feldSizeY) < 4:
+        print(bcolors.RED + "Wenn das Feld kleiner als 4 entweder auf der Horizontalen oder der Vertikalen ist dann kann es keinen Gewinner geben!")
+        print("Starte eingabe neu!!" + bcolors.ORANGE)
+        setSize()
+
+    print(bcolors.CYAN + f"Ok das Feld wird also {feldSizeX} x {feldSizeY} groß sein?")
     print("Ist das OK?")
-    choice = input("y/n? ")
+    choice = input(bcolors.BLUE + "y/n? " + bcolors.PURPLE)
     # y UND Y sollen gehen also alles als LOWER vergleichen
     if choice.lower() == "y":
         print("OK")
@@ -81,7 +101,7 @@ def setSize():
         initListen()
         game()
     else:
-        print("Ok dann kannst du es nun korrigieren...")
+        print(bcolors.ORANGE + "Ok dann kannst du es nun korrigieren...")
         setSize()
 
 # Listen entsprechend der Größe mit 0 auffüllen
@@ -95,12 +115,13 @@ def initListen():
             tmpList.append(0)
         feld.append(tmpList)
 
+
 # haupt ausgeben Methode
 def ausgeben():
     global feld
     global feldSizeX
     global feldSizeY
-    printLogo()
+
     # header
     print(bcolors.ORANGE, end='')
     for x in range(int(feldSizeX)):
@@ -153,6 +174,7 @@ def game():
 
 
     print(bcolors.PURPLE + f"Spieler {spielerAmZug} am Zug!" + bcolors.ENDC)
+    printLogo()
     ausgeben()
     print()
     print(bcolors.GREEN + "Bitte gebe den Index der Spalte ein, in den du einen Stein setzen willst!")
@@ -234,6 +256,7 @@ def checkWin(x, y, player):
         if int(r) != int(player):
             win = False
 
+
     #print(tmpVerts)
 
     # ============================== Horizontal ==============================
@@ -312,6 +335,8 @@ def checkWin(x, y, player):
     if win:
         clear()
         winner(player)
+    else:
+        clear()
 
 
 def winner(player):
@@ -331,6 +356,7 @@ def winner(player):
     
                             """)
         print(bcolors.GREEN + "Herzlichen Glückwunsch Spieler 1" + bcolors.ENDC)
+
     else:
 
         print(bcolors.BLUE + bcolors.BOLD + """
@@ -351,6 +377,10 @@ def winner(player):
                                     """)
         print(bcolors.GREEN + "Herzlichen Glückwunsch Spieler 2" + bcolors.ENDC)
 
+
+
+    ausgeben()
+    print(bcolors.ENDC)
     quit()
 
 
